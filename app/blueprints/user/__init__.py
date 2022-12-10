@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')
+bp = Blueprint('user', __name__, url_prefix='/user')
 
 from . import routes, models

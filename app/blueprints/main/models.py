@@ -1,7 +1,7 @@
 from app import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
-from workzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(UserMixin, db.Model):
@@ -11,6 +11,9 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
     password_hash = db.Column(db.String(128))
+    # todo: add a character avatar
+    # todo: add a bio
+    # todo: add a
 
     def hash_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -32,3 +35,4 @@ class Pokemon(db.Model):
     name = db.Column(db.String(64), unique=True)
     height = db.Column(db.Integer, nullable=False)
     weight = db.Column(db.Integer, nullable=False)
+    poke_type = db.Column(db.String(128), nullable=False)
