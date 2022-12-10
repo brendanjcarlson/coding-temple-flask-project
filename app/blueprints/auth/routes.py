@@ -3,23 +3,29 @@ from app.blueprints.main.models import User
 from app import db
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
+import re
 
-@app.route('/sign-up', methods=['GET', 'POST'])
-def sign_up():
+## determining if login is by email or username
+regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@')
+def isEmail(email):
+    return True if regex.match(email) else False
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
     if request.method == 'GET':
-        return render_template('sign_up.html.j2', title='Sign Up')
+        return render_template('register.html.j2')
 
-    username = request.form['username'].strip()
-    email = request.form['email'].strip()
-    first_name = request.form['firstName'].strip()
-    last_name = request.form['lastName'].strip()
-    password = request.form['password'].strip()
-    confirm_password = request.form['confirmPassword'].strip()
+    first_name = request.form['firstName']
+    last_name = request.form['lastName']
+    username = request.form['username']
+    email = request.form['email']
+    password = request.form['password']
+    confirm_password = request.form['confirmPassword']
 
     username_exists = User.query.filter_by(username=username).first()
     email_exists = User.query.filter_by(email=email).first()
 
-    if user_exists is not None or email_exists is not None or password != confirm_password:
+    if username_exists is not None or email_exists is not None or password != confirm_password:
         if user_exists is not None:
             flash(f'User with username {username} already exists.', category='danger')
         if email_exists is not None:
@@ -36,44 +42,38 @@ def sign_up():
             return redirect(url_for('auth.login'))
         except:
             flash(f'Something went wrong. Please try again.', category='danger')
+    return render_template('login.html.j2')
 
-
-@app.route('/sign-in', methods=['GET', 'POST'])
-def sign_in():
+@app.route('/login', methods=['GET', 'POST'])
+def login():
     if request.method == 'GET':
-        return render_template('sign_in.html.j2', title='Sign In')
+        return render_template('login.html.j2')
 
-    email = request.form['email']
+    identifier = request.form['identifier']
     password = request.form['password']
-    next_url = request.form['next_url']
+    # next_url = request.form['next_url']
 
-    user = User.query.filter_by(email=email).first()
+    if isEmail(identifier):
+        user = User.query.filter_by(email=identifier).first()
+    else:
+        user = User.query.filter_by(username=identifier).first()
+
 
     if user is None:
-        flash(message=f'No user with email {email} found.', category='danger')
-    elif user.check_password_hash(password):
+        flash(message=f'No user with email {identifier} found.', category='danger')
+    elif user.check_password(password):
         login_user(user)
-        flash(message=f'Login successful. Welcome back {user.username}', category='success')
-        if next_url:
-            return redirect(next_url)
+        flash(message=f'Login successful.', category='success')
+        # if next_url:
+        #     return redirect(next_url)
         return redirect(url_for('main.home'))
     else:
         flash(message=f'Invalid credentials.', category='danger')
 
-    return render_template('login.html.j2', title='Login')
+    return redirect(url_for('main.home'))
 
 @app.route('/logout')
 def logout():
     logout_user()
     flash(message='Logout successful.', category='success')
     return redirect(url_for('main.home'))
-
-
-## REDIRECTS
-@app.route('/login')
-def login():
-    return redirect(url_for('auth.sign_in'))
-
-@app.route('/register')
-def register():
-    return redirect(url_for('auth.sign_up'))

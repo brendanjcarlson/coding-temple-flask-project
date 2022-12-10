@@ -7,4 +7,4 @@ from flask_login import current_user, login_required
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('home.html.j2', title='Home', user=current_user)
+    return render_template('home.html.j2', user=current_user)

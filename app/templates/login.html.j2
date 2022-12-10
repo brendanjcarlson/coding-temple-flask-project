@@ -1,14 +1,16 @@
 {% extends 'base.html.j2' %}
 
+{% block title %}Login{% endblock %}
+
 {% block content %}
 
 <section class="container">
-    <form action="{{ url_for('auth.sign_in') }}" method="POST">
-        <input type="hidden" name="next" value="{{ request.args.get('next', '') }}">
+    <form action="{{ url_for('auth.login') }}" method="POST">
+        {# <input type="hidden" name="next" value="{{ 'next' if request.args.get() else '' }}"> #}
 
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" name="email" id="email" class="form-control">
+            <label for="identifier" class="form-label">Email or Username</label>
+            <input type="text/email" name="identifier" id="identifier" class="form-control">
         </div>
 
         <div class="mb-3">

@@ -1,6 +1,4 @@
 venv
 .env
 __pycache__
-sandbox.py
-all_pokemon.json
-pokemon.json
+/area-51

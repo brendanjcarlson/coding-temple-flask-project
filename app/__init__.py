@@ -28,3 +28,8 @@ app.register_blueprint(blueprint=api_bp)
 
 from app.blueprints.auth import bp as auth_bp
 app.register_blueprint(blueprint=auth_bp)
+
+
+login_manager.login_view = 'auth.login'
+login_manager.login_message = 'Please log in to access this page.'
+login_manager.login_message_category = 'danger'
