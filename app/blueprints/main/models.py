@@ -39,20 +39,3 @@ class Pokemon(db.Model):
     sprite = db.Column(db.String(128))
     description = db.Column(db.String(512))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-
-def poke_api():
-    for i in range(1, 906):
-        res_one = requests.get(f'https://pokeapi.co/api/v2/pokemon/{str(i)}')
-        res_two = requests.get(f'https://pokeapi.co/api/v2/pokemon-species/{str(i)}')
-        try:
-            if res_one.ok and res_two.ok:
-                data_one = res_one.json()
-                data_two = res_two.json()
-                new_pokemon = Pokemon(game_id=data_one["id"],name=data_one["name"],height=data_one["height"],weight=data_one["weight"],types=", ".join([t["type"]["name"] for t in data_one["types"]]),abilities=", ".join([a["ability"]["name"] for a in data_one["abilities"]]),sprite=data_one["sprites"]["front_default"],description=data_two["flavor_text_entries"][0]["flavor_text"])
-                db.session.add(new_pokemon)
-                db.session.commit()
-        except:
-            print("Error at request #", i)
-
-poke_api()

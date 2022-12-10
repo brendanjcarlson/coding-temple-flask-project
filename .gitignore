@@ -1,4 +1,4 @@
 venv
 .env
 __pycache__
-/area-51
+app/area-51
