@@ -1,13 +1,7 @@
 {% extends 'base.html.j2' %}
 
-{% block title %}Home{% endblock %}
 
 {% block content %}
-<h1> home </h1>
-<p>{{ user.username }}</p>
-
-
-
 
 <div class="d-flex" style="justify-content: space-between; width: 80%; margin-inline: auto;">
     {% for poke in pokemon %}
@@ -24,4 +18,5 @@
     </div>
     {% endfor %}
 </div>
+
 {% endblock %}
