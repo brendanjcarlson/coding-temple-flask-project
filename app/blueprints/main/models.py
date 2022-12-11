@@ -2,7 +2,7 @@ from app import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-import requests
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -39,3 +39,9 @@ class Pokemon(db.Model):
     sprite = db.Column(db.String(128))
     description = db.Column(db.String(512))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+pokemon_user = db.Table('pokemon_user',
+                        db.Column('user_id', db.Integer, db.ForeignKey(
+                            'user.id'), primary_key=True),
+                        db.Column('pokemon_id', db.Integer, db.ForeignKey('pokemon.id'), primary_key=True))

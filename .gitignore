@@ -1,4 +1,5 @@
 venv
 .env
 __pycache__
-app/area-51
+/area-51
+app/blueprints/main/DATA.py

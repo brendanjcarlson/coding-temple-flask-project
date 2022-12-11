@@ -2,18 +2,18 @@ from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-
-
-db = SQLAlchemy()
-migrate = Migrate()
-login_manager = LoginManager()
+import requests
 
 app = Flask(__name__)
-
 app.config.from_object('config.Config')
 
+db = SQLAlchemy()
 db.init_app(app)
+
+migrate = Migrate()
 migrate.init_app(app, db)
+
+login_manager = LoginManager()
 login_manager.init_app(app)
 
 
