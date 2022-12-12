@@ -3,22 +3,27 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1> home </h1>
-<p>{{ user.username }}</p>
-
-
-
-
+{% if current_user.is_authenticated %}
+<h1 style="font-size: 2rem; text-align: center; margin-block-end: 3rem;"> Welcome to PokéPicker! Start building your
+    PokéDex by
+    choosing your
+    starter!</h1>
+{% else %}
+<h1 style="font-size: 2rem; text-align: center; margin-block-end: 3rem;"> Welcome to PokéPicker! Register your
+    your account to start building your PokéDex!</h1>
+{% endif %}
 <div class="d-flex" style="justify-content: space-between; width: 80%; margin-inline: auto;">
     {% for poke in pokemon %}
     <div class="card" style="width: 18rem;">
-        <img src="{{poke.sprite}}" class="card-img-top" alt="{{poke.name}}">
+        <img src="{{ poke.sprite }}" class="card-img-top" alt="{{ poke.name }}">
         <div class="card-body">
             <h5 class="card-title">{{poke.name.upper()}}</h5>
             <p class="card-text">{{poke.description}}</p>
             <div class="d-flex" style="justify-content: space-between;">
-                <a href="#" class="btn btn-warning">PokéPick</a>
-                <a href="#" class="btn btn-info">More Info</a>
+                <form action="{{ url_for('user.pick', id=poke.game_id) }}" method="POST">
+                    <button type='submit' class="btn btn-warning">PokéPick</button>
+                </form>
+                <a href="{{ url_for('main.pokemon', game_id=poke.game_id) }}" class="btn btn-info">More Info</a>
             </div>
         </div>
     </div>

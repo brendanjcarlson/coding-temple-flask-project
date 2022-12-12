@@ -17,7 +17,11 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" name="password" id="password" class="form-control">
         </div>
-        <button type="submit" class="btn btn-warning">Sign In</button>
+
+        <div class="d-flex" style="justify-content: space-between;">
+            <button type="submit" class="btn btn-warning">Sign In</button>
+            <a class='btn btn-info' href="{{ url_for('auth.register') }}">New to PokéPicker? Register here!</a>
+        </div>
     </form>
 </section>
 

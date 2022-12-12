@@ -3,5 +3,23 @@
 {% block title %}{{user.username}}{% endblock %}
 
 {% block content %}
-<h1>profile dont forget to pass in user in route</h1>
+<h1 style="text-align: center; font-size: 2rem; margin-block-end: 3rem;">{{user.username}}'s PokéDex</h1>
+<div class="d-flex"
+    style="flex-wrap: wrap; row-gap: 2rem; justify-content: space-between; width: 80%; margin-inline: auto;">
+    {% for poke in pokemon %}
+    <div class="card" style="width: 18rem;">
+        <img src="{{ poke.sprite }}" class="card-img-top" alt="{{ poke.name }}">
+        <div class="card-body">
+            <h5 class="card-title">{{poke.name.upper()}}</h5>
+            <p class="card-text">{{poke.description}}</p>
+            <div class="d-flex" style="justify-content: space-between;">
+                <form action="{{ url_for('user.pick', id=poke.game_id) }}" method="POST">
+                    <button type='submit' class="btn btn-warning">PokéPick</button>
+                </form>
+                <a href="{{ url_for('main.pokemon', game_id=poke.game_id) }}" class="btn btn-info">More Info</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.j2' %}
+
+{% block title %}{{ pokemon.name.upper() }}{% endblock %}
+
+
+{% block content %}
+<div class="d-flex" style="justify-content: center; width: 80%; margin-inline: auto;">
+    <div class="card" style="width: 18rem;">
+        <img src="{{ pokemon.sprite }}" class="card-img-top" alt="{{ pokemon.name }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ pokemon.name.upper() }}</h5>
+            <p class="card-text">Types: {{ pokemon.types.title() }}</p>
+            <p class="card-text">Abilities: {{ pokemon.abilities.title() }}</p>
+            <p class="card-text">Height: {{ pokemon.height }}</p>
+            <p class="card-text">Weight: {{ pokemon.weight }}</p>
+            <p class="card-text">{{ pokemon.description }}</p>
+            <form action="{{ url_for('user.pick', id=pokemon.game_id) }}" method="POST">
+                <button type='submit' class="btn btn-warning">PokéPick</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

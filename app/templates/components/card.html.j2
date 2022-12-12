@@ -7,7 +7,7 @@
             <p class="card-text">{{poke.description}}</p>
             <div class="d-flex" style="justify-content: space-between;">
                 <a href="#" class="btn btn-warning">PokéPick</a>
-                <a href="#" class="btn btn-info">More Info</a>
+                <a href="{{ url_for(f'main.search/{poke.game_id}') }}" class="btn btn-info">More Info</a>
             </div>
         </div>
     </div>
